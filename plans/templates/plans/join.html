@@ -1,0 +1,111 @@
+{% extends 'plans/base.html' %}
+
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+  <h2 class="display-4">MaxSubscription Plans</h2>
+  <p class="lead">Choose the subscription plan that best suits your needs and start benefiting from our hassle-free MTD submission services.</p>
+  <p>Membership status: {{ user.customer.membership }}</p>
+</div>
+
+<div class="container">
+  <div class="row text-center">
+
+    <!-- Basic Plan Column -->
+    <div class="col-md-4">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+          <h4 class="my-0 font-weight-normal">Simple Basic Plan - Monthly</h4>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title pricing-card-title">£10.00 <small class="text-muted">/ month</small></h3>
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>Basic Features</li>
+            <li>Limited Support</li>
+            <li>Limited Support</li>
+          </ul>
+          <a href="{% url 'checkout' %}?plan_type=basic&billing_cycle=monthly"><button type="button" class="btn btn-lg btn-block btn-outline-primary">Get started</button></a>
+        </div>
+      </div>
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+          <h4 class="my-0 font-weight-normal">Basic Plan  -  Yearly <small class="text-primary"> Save    £20!</small></h4>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title pricing-card-title">£100 <small class="text-muted">/ yr</small></h3>
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>Basic Features</li>
+            <li>Limited Support</li>
+            <li>Online Support</li>
+          </ul>
+          <a href="{% url 'checkout' %}?plan_type=basic&billing_cycle=yearly"><button type="button" class="btn btn-lg btn-block btn-primary">Get started</button></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Premium Plan Column -->
+    <div class="col-md-4">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+          <h4 class="my-0 font-weight-normal">Premium Plan - Monthly</h4>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title pricing-card-title">£25.00 <small class="text-muted">/ mo</small></h3>
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>Advanced Features</li>
+            <li>Priority Support</li>
+            <li>Additional Resources</li>
+          </ul>
+          <a href="{% url 'checkout' %}?plan_type=premium&billing_cycle=monthly"><button type="button" class="btn btn-lg btn-block btn-outline-primary">Get started</button></a>
+        </div>
+      </div>
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+          <h4 class="my-0 font-weight-normal">Premium Plan - Yearly <small class="text-primary"> Save £40!</small></h4>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title pricing-card-title">£220 <small class="text-muted">/ yr</small></h3>
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>Advanced Features</li>
+            <li>Priority Support</li>
+            <li>Additional Resources</li>
+          </ul>
+          <a href="{% url 'checkout' %}?plan_type=premium&billing_cycle=yearly"><button type="button" class="btn btn-lg btn-block btn-primary">Get started</button></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Enterprise Plan Column -->
+    <div class="col-md-4">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+          <h4 class="my-0 font-weight-normal">Enterprise Plan - Monthly</h4>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title pricing-card-title">£35.00 <small class="text-muted">/ mo</small></h3>
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>All Premium Features</li>
+            <li>Dedicated Support</li>
+            <li>Custom Solutions</li>
+          </ul>
+          <a href="{% url 'checkout' %}?plan_type=enterprise&billing_cycle=monthly"><button type="button" class="btn btn-lg btn-block btn-outline-primary">Get started</button></a>
+        </div>
+      </div>
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+          <h4 class="my-0 font-weight-normal">Enterprise Plan - Yearly <small class="text-primary"> Save £100!</small></h4>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title pricing-card-title">£320 <small class="text-muted">/ yr</small></h3>
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>All Premium Features</li>
+            <li>Dedicated Support</li>
+            <li>Custom Solutions</li>
+          </ul>
+          <a href="{% url 'checkout' %}?plan_type=enterprise&billing_cycle=yearly"><button type="button" class="btn btn-lg btn-block btn-primary">Get started</button></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

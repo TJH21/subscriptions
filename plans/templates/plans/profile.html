@@ -1,0 +1,6 @@
+<h1>Welcome, {{ customer.user.username }}</h1>
+{% if customer.membership %}
+    <p>You are currently subscribed.</p>
+{% else %}
+    <p>You are not subscribed to any plan.</p>
+{% endif %}
