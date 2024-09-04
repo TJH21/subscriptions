@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
 import stripe
 from .helpers import get_or_create_stripe_customer, create_stripe_subscription, map_plan_to_stripe_id
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 
 stripe.api_key = 'sk_test_51PsZIxHjvVBC2HYeiAfWxe4HlfiTr25C1FywMCsX2rfgbAMnT7oDp3PN9Sh8RWTf3ksf17W97t1Tu8K0YoKPuEoA00tsX4WNSJ'
@@ -33,16 +35,19 @@ def home(request):
 
 def plan(request, pk):
     plan = get_object_or_404(Plan, pk=pk)
-    if plan.is_premium:
-        if request.user.is_authenticated:
-            try:
-                if request.user.customer.membership:
-                    return render(request, 'plans/plan.html', {'plan': plan})
-            except Customer.DoesNotExist:
-                return redirect('join')
-        return redirect('join')
+    if request.user.is_authenticated:
+        customer, _ = Customer.objects.get_or_create(user=request.user)
+        customer.plan = plan  # Associate the user with the selected plan
+        customer.save()
+
+        if plan.is_premium:
+            if customer.membership:
+                return render(request, 'plans/plan.html', {'plan': plan})
+            return redirect('join')
+        else:
+            return render(request, 'plans/plan.html', {'plan': plan})
     else:
-        return render(request, 'plans/plan.html', {'plan': plan})
+        return redirect('login')
 
 def join(request):
     plans = Plan.objects.all()
@@ -181,3 +186,42 @@ class SignUp(generic.CreateView):
         new_user = authenticate(username=username, password=password)
         login(self.request, new_user)
         return valid
+
+@csrf_exempt
+def stripe_webhook(request):
+    payload = request.body
+    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+    event = None
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, settings.STRIPE_WEBHOOK_SECRET  # Stripe Webhook Secret key
+        )
+    except ValueError as e:
+        return JsonResponse({'error': str(e)}, status=400)
+    except stripe.error.SignatureVerificationError as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
+    # Handle the event
+    if event['type'] == 'customer.subscription.deleted':
+        subscription_id = event['data']['object']['id']
+        handle_subscription_deletion(subscription_id)
+
+    elif event['type'] == 'customer.subscription.updated':
+        subscription_id = event['data']['object']['id']
+        handle_subscription_update(subscription_id)
+
+    return JsonResponse({'status': 'success'}, status=200)
+
+def handle_subscription_deletion(subscription_id):
+    # Locate the subscription and deactivate it
+    from .models import Subscription
+    subscription = Subscription.objects.filter(stripe_subscription_id=subscription_id).first()
+    if subscription:
+        subscription.active = False
+        subscription.save()
+
+def handle_subscription_update(subscription_id):
+    # Handle updates to the subscription, e.g., plan changes or price changes
+    # You'll likely need to fetch more details from Stripe
+    pass

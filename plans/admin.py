@@ -1,6 +1,11 @@
 from django.contrib import admin
+from .models import Plan
+from rest_framework.authtoken.admin import TokenAdmin
+from rest_framework.authtoken.models import Token
 
-from .models import Plan, Customer
+admin.site.register(Token, TokenAdmin)
 
-admin.site.register(Plan)
-admin.site.register(Customer)
+
+@admin.register(Plan)
+class PlanAdmin(admin.ModelAdmin):
+    list_display = ('name', 'plan_type', 'billing_cycle', 'price')  # Customize the display in the admin interface

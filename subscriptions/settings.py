@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-import os
 from pathlib import Path
 
 
@@ -41,9 +40,14 @@ INSTALLED_APPS = [
 
     'corsheaders',
     'rest_framework',
+    'drf_yasg',
+    'rest_framework.authtoken',
 
     'plans',
+    'management',
+
 ]
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -169,5 +173,5 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STRIPE_SECRET_KEY = os.environ.get('sk_test_51PsZIxHjvVBC2HYeiAfWxe4HlfiTr25C1FywMCsX2rfgbAMnT7oDp3PN9Sh8RWTf3ksf17W97t1Tu8K0YoKPuEoA00tsX4WNSJ')
-STRIPE_PUBLISHABLE_KEY = os.environ.get('pk_test_51PsZIxHjvVBC2HYetDyrBYvYPxjARWF9EW6NDQR9sKqowELTxQet2KtsusavWdNtcCAggCEwcINoLz2D9TCDxcBY00yfYVtqJS')
+STRIPE_SECRET_KEY = 'sk_test_51PsZIxHjvVBC2HYeiAfWxe4HlfiTr25C1FywMCsX2rfgbAMnT7oDp3PN9Sh8RWTf3ksf17W97t1Tu8K0YoKPuEoA00tsX4WNSJ'
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51PsZIxHjvVBC2HYetDyrBYvYPxjARWF9EW6NDQR9sKqowELTxQet2KtsusavWdNtcCAggCEwcINoLz2D9TCDxcBY00yfYVtqJS'

@@ -22,7 +22,7 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.routers import DefaultRouter
-from plans.api.views import PlanViewSet  # type: ignore # Adjust the import path as necessary
+from plans.api.views import PlanViewSet  # Correct import patecessary
 
 router = DefaultRouter()
 router.register(r'plans', PlanViewSet)  # Register the PlanViewSet with the router
